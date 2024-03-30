@@ -78,7 +78,7 @@ publishing {
 
                 organization {
                     name.set('com.github.romanqed')
-                    url.set('https://github.com/AmayaFramework')
+                    url.set('https://github.com/RomanQed')
                 }
 
                 issueManagement {
