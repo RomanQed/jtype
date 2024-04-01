@@ -1,6 +1,7 @@
 package com.github.romanqed.jtype;
 
 import java.lang.reflect.*;
+import java.util.Objects;
 
 public final class TypeUtil {
     private static final String ARRAY = "[";
@@ -22,7 +23,11 @@ public final class TypeUtil {
     }
 
     public static Class<?> getArrayType(Class<?> type, int dimension) {
-        return null;
+        Objects.requireNonNull(type);
+        if (dimension < 1) {
+            throw new IllegalArgumentException("Illegal array dimension: " + dimension);
+        }
+        return innerGetArrayType(type, dimension);
     }
 
     static Class<?> innerGetRawType(GenericArrayType type) {
@@ -41,7 +46,8 @@ public final class TypeUtil {
     }
 
     public static Class<?> getRawType(GenericArrayType array) {
-        return null;
+        Objects.requireNonNull(array);
+        return innerGetRawType(array);
     }
 
     static Class<?> innerGetRawType(Type type) {
@@ -50,7 +56,6 @@ public final class TypeUtil {
         }
         if (type instanceof ParameterizedType) {
             return (Class<?>) ((ParameterizedType) type).getRawType();
-
         }
         if (type instanceof GenericArrayType) {
             return innerGetRawType((GenericArrayType) type);
@@ -70,7 +75,8 @@ public final class TypeUtil {
     }
 
     public static Class<?> getRawType(Type type) {
-        return null;
+        Objects.requireNonNull(type);
+        return innerGetRawType(type);
     }
 
     static Class<?> innerGetRawType(WildcardType type) {
@@ -82,6 +88,7 @@ public final class TypeUtil {
     }
 
     public static Class<?> getRawType(WildcardType type) {
-        return null;
+        Objects.requireNonNull(type);
+        return innerGetRawType(type);
     }
 }
