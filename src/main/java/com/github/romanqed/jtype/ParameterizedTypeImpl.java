@@ -60,11 +60,11 @@ final class ParameterizedTypeImpl implements ParameterizedType, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ParameterizedTypeImpl)) return false;
-        var that = (ParameterizedTypeImpl) o;
-        return Objects.equals(owner, that.owner)
-                && raw.equals(that.raw)
-                && Arrays.equals(arguments, that.arguments);
+        if (!(o instanceof ParameterizedType)) return false;
+        var that = (ParameterizedType) o;
+        return Objects.equals(owner, that.getOwnerType())
+                && raw.equals(that.getRawType())
+                && Arrays.equals(arguments, that.getActualTypeArguments());
     }
 
     @Override

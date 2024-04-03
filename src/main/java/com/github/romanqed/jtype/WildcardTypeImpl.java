@@ -44,9 +44,10 @@ final class WildcardTypeImpl implements WildcardType, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof WildcardTypeImpl)) return false;
-        var that = (WildcardTypeImpl) o;
-        return Arrays.equals(uppers, that.uppers) && Arrays.equals(lowers, that.lowers);
+        if (!(o instanceof WildcardType)) return false;
+        var that = (WildcardType) o;
+        return Arrays.equals(uppers, that.getUpperBounds())
+                && Arrays.equals(lowers, that.getLowerBounds());
     }
 
     @Override

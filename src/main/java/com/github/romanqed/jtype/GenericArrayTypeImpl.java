@@ -27,9 +27,9 @@ final class GenericArrayTypeImpl implements GenericArrayType, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GenericArrayTypeImpl)) return false;
-        var that = (GenericArrayTypeImpl) o;
-        return component.equals(that.component);
+        if (!(o instanceof GenericArrayType)) return false;
+        var that = (GenericArrayType) o;
+        return component.equals(that.getGenericComponentType());
     }
 
     @Override
