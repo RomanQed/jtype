@@ -2,6 +2,7 @@ package com.github.romanqed.jtype;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 public class JType<T> {
     private final Class<T> raw;
@@ -16,6 +17,18 @@ public class JType<T> {
     protected JType() {
         this.type = getTypeArgument();
         this.raw = (Class<T>) TypeUtil.getRawType(this.type);
+    }
+
+    public static <T> JType<T> of(Class<T> type) {
+        Objects.requireNonNull(type);
+        return new JType<>(type, type);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> JType<T> of(Type type) {
+        Objects.requireNonNull(type);
+        var raw = (Class<T>) TypeUtil.getRawType(type);
+        return new JType<>(raw, type);
     }
 
     private Type getTypeArgument() {
