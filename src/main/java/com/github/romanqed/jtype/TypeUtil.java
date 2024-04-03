@@ -8,15 +8,15 @@ public final class TypeUtil {
     private static final String ARRAY = "[";
     private static final String REFERENCE = "L";
     private static final Set<Type> PRIMITIVES = Set.of(
-            Boolean.class,
-            Character.class,
-            Byte.class,
-            Short.class,
-            Integer.class,
-            Long.class,
-            Float.class,
-            Double.class,
-            Void.class
+            boolean.class,
+            char.class,
+            byte.class,
+            short.class,
+            int.class,
+            long.class,
+            float.class,
+            double.class,
+            void.class
     );
 
     private TypeUtil() {
