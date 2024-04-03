@@ -56,4 +56,9 @@ public final class Types {
         }
         return new WildcardTypeImpl(UPPERS, new Type[]{type});
     }
+
+    public static TaggedType of(Type type, String... tags) {
+        Objects.requireNonNull(type);
+        return new TaggedTypeImpl(type, tags.clone());
+    }
 }
