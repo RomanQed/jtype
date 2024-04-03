@@ -5,6 +5,9 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 
 final class TaggedTypeImpl implements TaggedType, Serializable {
+    // UID
+    private static final long serialVersionUID = 1786018160;
+
     private final Type raw;
     private final String[] tags;
 
