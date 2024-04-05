@@ -9,9 +9,9 @@ final class TaggedTypeImpl implements TaggedType, Serializable {
     private static final long serialVersionUID = 1786018160;
 
     private final Type raw;
-    private final String[] tags;
+    private final Object[] tags;
 
-    TaggedTypeImpl(Type raw, String[] tags) {
+    TaggedTypeImpl(Type raw, Object[] tags) {
         this.raw = raw;
         this.tags = tags;
     }
@@ -22,7 +22,7 @@ final class TaggedTypeImpl implements TaggedType, Serializable {
     }
 
     @Override
-    public String[] getTags() {
+    public Object[] getTags() {
         return tags.clone();
     }
 
@@ -38,9 +38,9 @@ final class TaggedTypeImpl implements TaggedType, Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TaggedTypeImpl)) return false;
-        var that = (TaggedTypeImpl) o;
-        return raw.equals(that.raw) && Arrays.equals(tags, that.tags);
+        if (!(o instanceof TaggedType)) return false;
+        var that = (TaggedType) o;
+        return raw.equals(that.getRawType()) && Arrays.equals(tags, that.getTags());
     }
 
     @Override

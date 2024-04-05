@@ -6,5 +6,5 @@ public interface TaggedType extends Type {
 
     Type getRawType();
 
-    String[] getTags();
+    Object[] getTags();
 }

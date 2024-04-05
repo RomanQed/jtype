@@ -1,6 +1,5 @@
 package com.github.romanqed.jtype;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.GenericArrayType;
@@ -9,8 +8,9 @@ import java.lang.reflect.WildcardType;
 import java.util.List;
 
 import static com.github.romanqed.jtype.TypeUtil.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class UtilTest extends Assertions {
+public class UtilTest {
 
     @Test
     public void testPrimitiveChecker() {
