@@ -69,13 +69,10 @@ final class ParameterizedTypeImpl implements ParameterizedType, Serializable {
 
     @Override
     public int hashCode() {
-        // Lee and Wilson use xor, but in this case I like the idea of relying
-        // on the built-in implementation (magic 31),
-        // because a hash with a shift is a priori better than a hash without a shift
-        if (owner == null) {
-            return 31 * raw.hashCode() + Arrays.hashCode(arguments);
-        }
-        return 31 * Objects.hash(owner, raw) + Arrays.hashCode(arguments);
+        // Hash from openjdk
+        return Arrays.hashCode(arguments)
+                ^ (owner == null ? 0 : owner.hashCode())
+                ^ raw.hashCode();
     }
 
     @Override

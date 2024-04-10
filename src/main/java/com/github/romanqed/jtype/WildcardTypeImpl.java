@@ -52,8 +52,8 @@ final class WildcardTypeImpl implements WildcardType, Serializable {
 
     @Override
     public int hashCode() {
-        // Magic 31 hash
-        return 31 * Arrays.hashCode(uppers) + Arrays.hashCode(lowers);
+        // Hash from openjdk
+        return Arrays.hashCode(lowers) ^ Arrays.hashCode(uppers);
     }
 
     @Override
