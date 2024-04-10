@@ -84,6 +84,9 @@ public final class TypeUtil {
             // We cannot statically derive a generic, so we use type erasure.
             return Object.class;
         }
+        if (type instanceof TaggedType) {
+            return innerGetRawType(((TaggedType) type).getRawType());
+        }
         if (type instanceof WildcardType) {
             var bounds = ((WildcardType) type).getUpperBounds();
             if (bounds.length != 1) {
