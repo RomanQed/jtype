@@ -13,6 +13,50 @@ public final class Types {
     private Types() {
     }
 
+    public static Type canonicalize(Type type) {
+        if (type instanceof GenericArrayType) {
+            var component = ((GenericArrayType) type).getGenericComponentType();
+            return new GenericArrayTypeImpl(canonicalize(component));
+        }
+        if (type instanceof ParameterizedType) {
+            var parameterized = (ParameterizedType) type;
+            var owner = canonicalize(parameterized.getOwnerType());
+            var raw = canonicalize(parameterized.getRawType());
+            var old = parameterized.getActualTypeArguments();
+            var length = old.length;
+            var types = new Type[length];
+            for (var i = 0; i < length; ++i) {
+                types[i] = canonicalize(old[i]);
+            }
+            return new ParameterizedTypeImpl(
+                    owner,
+                    raw,
+                    types
+            );
+        }
+        if (type instanceof WildcardType) {
+            var wildcard = (WildcardType) type;
+            var oldUppers = wildcard.getUpperBounds();
+            var length = oldUppers.length;
+            var uppers = new Type[length];
+            for (var i = 0; i < length; ++i) {
+                uppers[i] = canonicalize(oldUppers[i]);
+            }
+            var oldLowers = wildcard.getLowerBounds();
+            length = oldLowers.length;
+            var lowers = new Type[length];
+            for (var i = 0; i < length; ++i) {
+                lowers[i] = canonicalize(oldLowers[i]);
+            }
+            return new WildcardTypeImpl(uppers, lowers);
+        }
+        if (type instanceof TaggedType) {
+            var tagged = (TaggedType) type;
+            return new TaggedTypeImpl(canonicalize(tagged.getRawType()), tagged.getTags());
+        }
+        return type;
+    }
+
     public static GenericArrayType of(Type type) {
         Objects.requireNonNull(type);
         return new GenericArrayTypeImpl(type);

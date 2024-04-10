@@ -4,16 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ImplsTest {
-
-    public static final class A {
-        List<String> a;
-        List<String>[] b;
-        List<? extends String> c;
-        List<? super Number> d;
-    }
 
     @Test
     public void testParameterized() throws NoSuchFieldException {
@@ -41,5 +34,12 @@ public class ImplsTest {
         var expected = A.class.getDeclaredField("d").getGenericType();
         var actual = Types.of(List.class, Types.supertypeOf(Number.class));
         assertEquals(expected, actual);
+    }
+
+    public static final class A {
+        List<String> a;
+        List<String>[] b;
+        List<? extends String> c;
+        List<? super Number> d;
     }
 }
