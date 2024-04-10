@@ -94,7 +94,7 @@ public final class TypeUtil {
             }
             return innerGetRawType(bounds[0]);
         }
-        throw new IllegalArgumentException("Unexpected Type implementation: " + type.getClass());
+        throw new IllegalTypeException("Unexpected type implementation", type);
     }
 
     public static Class<?> getRawType(Type type) {
