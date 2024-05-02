@@ -2,28 +2,16 @@ package com.github.romanqed.jtype;
 
 import java.lang.reflect.*;
 import java.util.Objects;
-import java.util.Set;
 
 public final class TypeUtil {
     private static final String ARRAY = "[";
     private static final String REFERENCE = "L";
-    private static final Set<Type> PRIMITIVES = Set.of(
-            boolean.class,
-            char.class,
-            byte.class,
-            short.class,
-            int.class,
-            long.class,
-            float.class,
-            double.class,
-            void.class
-    );
 
     private TypeUtil() {
     }
 
     public static boolean isPrimitive(Type type) {
-        return PRIMITIVES.contains(type);
+        return (type instanceof Class) && ((Class<?>) type).isPrimitive();
     }
 
     static String toString(Type type) {
