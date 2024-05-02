@@ -87,6 +87,11 @@ public final class Types {
         return new ParameterizedTypeImpl(null, raw, arguments.clone());
     }
 
+    public static ParameterizedType of(Class<?> raw, Type... arguments) {
+        Objects.requireNonNull(raw);
+        return new ParameterizedTypeImpl(raw.getEnclosingClass(), raw, arguments.clone());
+    }
+
     public static WildcardType subtypeOf(Type type) {
         if (type instanceof WildcardType) {
             return new WildcardTypeImpl(((WildcardType) type).getUpperBounds(), EMPTY_ARRAY);
