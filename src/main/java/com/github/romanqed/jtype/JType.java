@@ -16,10 +16,12 @@ public class JType<T> {
 
     private final Class<T> raw;
     private final Type type;
+
     JType(Class<T> raw, Type type) {
         this.raw = raw;
         this.type = type;
     }
+
     @SuppressWarnings("unchecked")
     protected JType() {
         this.type = getTypeArgument();
