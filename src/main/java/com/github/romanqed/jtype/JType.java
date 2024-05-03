@@ -5,14 +5,21 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 public class JType<T> {
+    public static final JType<Boolean> BOOLEAN = JType.of(Boolean.class);
+    public static final JType<Character> CHARACTER = JType.of(Character.class);
+    public static final JType<Byte> BYTE = JType.of(Byte.class);
+    public static final JType<Short> SHORT = JType.of(Short.class);
+    public static final JType<Integer> INTEGER = JType.of(Integer.class);
+    public static final JType<Long> LONG = JType.of(Long.class);
+    public static final JType<Float> FLOAT = JType.of(Float.class);
+    public static final JType<Double> DOUBLE = JType.of(Double.class);
+
     private final Class<T> raw;
     private final Type type;
-
     JType(Class<T> raw, Type type) {
         this.raw = raw;
         this.type = type;
     }
-
     @SuppressWarnings("unchecked")
     protected JType() {
         this.type = getTypeArgument();
