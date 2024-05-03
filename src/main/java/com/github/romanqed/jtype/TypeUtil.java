@@ -4,9 +4,8 @@ import java.lang.reflect.*;
 import java.util.Objects;
 
 /**
- * A class that contains static methods that returns type of object, checks if 
- * type is primitive or returns string containing classname.
- * This class object cannot be instantiated.
+ * A utility class containing methods for extracting raw types and some others.
+ * This class cannot be instantiated.
  */
 public final class TypeUtil {
     private static final String ARRAY = "[";
@@ -16,36 +15,30 @@ public final class TypeUtil {
     }
 
     /**
-     * Checks if {@link Type} class is primitive.
-     * 
-     * @param type
-     * @return true if class is primitive, false otherwise
+     * Checks whether the specified type is a primitive.
+     *
+     * @param type the specified type, may be null
+     * @return true if the type is a primitive, false otherwise
      */
     public static boolean isPrimitive(Type type) {
         return (type instanceof Class) && ((Class<?>) type).isPrimitive();
     }
 
-    /**
-     * Returns string containing classname.
-     * 
-     * @param type
-     * @return string containing classname
-     */
     static String toString(Type type) {
         return type instanceof Class ? ((Class<?>) type).getName() : type.toString();
     }
 
-    /**
-     * Returns array type with type and dimension count
-     * 
-     * @param type
-     * @param dimension
-     * @return array type object
-     */
     static Class<?> innerGetArrayType(Class<?> type, int dimension) {
         try {
+            if (type.isArray()) {
+                return Class.forName(
+                        ARRAY.repeat(dimension) + type.getName(),
+                        false,
+                        type.getClassLoader()
+                );
+            }
             return Class.forName(
-                    ARRAY.repeat(dimension) + REFERENCE + type.getTypeName() + ";",
+                    ARRAY.repeat(dimension) + REFERENCE + type.getName() + ";",
                     false,
                     type.getClassLoader()
             );
@@ -55,11 +48,15 @@ public final class TypeUtil {
     }
 
     /**
-     * Returns array type with type and dimension count
-     * 
-     * @param type
-     * @param dimension
-     * @return array type object
+     * Creates an array type from the specified type and dimension.
+     * In fact, the dimension will simply be added to the type descriptor,
+     * meaning the method works as follows:
+     * 1) getArrayType(String.class, 1) => String[].class
+     * 2) getArrayType(String[].class, 1) => String[][].class
+     *
+     * @param type      the specified component type, must be non-null
+     * @param dimension the specified dimension, must be greater or equal 1
+     * @return {@link Class} instance
      */
     public static Class<?> getArrayType(Class<?> type, int dimension) {
         Objects.requireNonNull(type);
@@ -69,13 +66,6 @@ public final class TypeUtil {
         return innerGetArrayType(type, dimension);
     }
 
-    /**
-     * Returns raw type of {@link Type} object inside {@link GenericArrayType}
-     * implementation object.
-     * 
-     * @param array
-     * @return raw type object
-     */
     static Class<?> innerGetRawType(GenericArrayType type) {
         var temp = (Type) type;
         var count = 0;
@@ -92,23 +82,16 @@ public final class TypeUtil {
     }
 
     /**
-     * Returns raw type of {@link Type} object inside {@link GenericArrayType}
-     * implementation object.
-     * 
-     * @param array
-     * @return raw type object
+     * Extracts raw type from the specified {@link GenericArrayType} instance.
+     *
+     * @param array the specified {@link GenericArrayType} instance, must be non-null
+     * @return {@link Class} instance, containing raw type
      */
     public static Class<?> getRawType(GenericArrayType array) {
         Objects.requireNonNull(array);
         return innerGetRawType(array);
     }
 
-    /**
-     * Returns raw type of {@link Type} object
-     * 
-     * @param type
-     * @return raw type object
-     */
     static Class<?> innerGetRawType(Type type) {
         if (type instanceof Class) {
             return (Class<?>) type;
@@ -137,23 +120,16 @@ public final class TypeUtil {
     }
 
     /**
-     * Returns raw type of {@link Type} object
-     * 
-     * @param type
-     * @return raw type object
+     * Extracts raw type from the specified {@link Type} instance.
+     *
+     * @param type the specified {@link Type} instance, must be non-null
+     * @return {@link Class} instance, containing raw type
      */
     public static Class<?> getRawType(Type type) {
         Objects.requireNonNull(type);
         return innerGetRawType(type);
     }
 
-    /**
-     * Returns raw type of {@link Type} object inside {@link WildcardType}
-     * implementation object.
-     * 
-     * @param type
-     * @return raw type object
-     */
     static Class<?> innerGetRawType(WildcardType type) {
         var bounds = type.getUpperBounds();
         if (bounds.length != 1) {
@@ -163,11 +139,10 @@ public final class TypeUtil {
     }
 
     /**
-     * Returns raw type of {@link Type} object inside {@link WildcardType}
-     * implementation object.
-     * 
-     * @param type
-     * @return raw type object
+     * Extracts raw type from the specified {@link WildcardType} instance.
+     *
+     * @param type the specified {@link WildcardType} instance, must be non-null
+     * @return {@link Class} instance, containing raw type
      */
     public static Class<?> getRawType(WildcardType type) {
         Objects.requireNonNull(type);

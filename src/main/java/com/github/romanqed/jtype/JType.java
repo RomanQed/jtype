@@ -5,9 +5,10 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 /**
- * A class that stores the raw class and class with generic parameters.
- * 
- * @param <T>
+ * A class representing a universal type descriptor containing information
+ * about the raw class and its specialized generics.
+ *
+ * @param <T> a stored type
  */
 public class JType<T> {
     public static final JType<Boolean> BOOLEAN = JType.of(Boolean.class);
@@ -22,20 +23,27 @@ public class JType<T> {
     private final Class<T> raw;
     private final Type type;
 
-    /**
-     * Constructs {@link JType} instance with the raw class and class with 
-     * generic parameters.
-     * 
-     * @param raw
-     * @param type
-     */
     JType(Class<T> raw, Type type) {
         this.raw = raw;
         this.type = type;
     }
 
     /**
-     * Constructs {@link JType} instance without parameters.
+     * Constructs a JType instance based on the type extracted from
+     * the type argument specified during inheritance.
+     * This constructor can be used in one of the following two ways.
+     * The first, recommended:
+     * <pre>
+     *     var type = new JType&lt;List&lt;String&gt;&gt;() {};
+     * </pre>
+     * And another one, possible, but not recommended:
+     * <pre>
+     *     class MyJTypeImpl extends JType&lt;List&lt;String&gt;&gt; {}
+     *     ...
+     *     var type = new MyJTypeImpl();
+     * </pre>
+     * IMPORTANT! Make sure that the type argument is passed by the first inheriting class
+     * and your jar package builder does not delete metadata containing generic information.
      */
     @SuppressWarnings("unchecked")
     protected JType() {
@@ -44,11 +52,11 @@ public class JType<T> {
     }
 
     /**
-     * Creates {@link JType} instance with the raw class.
-     * 
-     * @param <T>
-     * @param type
-     * @return created {@link JType} instance
+     * Creates a JType instance containing the type of the specified class.
+     *
+     * @param type the specified {@link Class} instance, must be non-null
+     * @param <T>  the type of the specified class
+     * @return {@link JType} instance
      */
     public static <T> JType<T> of(Class<T> type) {
         Objects.requireNonNull(type);
@@ -56,11 +64,12 @@ public class JType<T> {
     }
 
     /**
-     * Creates {@link JType} instance with class with generic parameters.
-     * 
-     * @param <T>
-     * @param type
-     * @return created {@link JType} instance
+     * Creates a JType instance containing the specified type and raw class,
+     * extracted from it.
+     *
+     * @param type the specified {@link Type} instance, must be non-null
+     * @param <T>  the specified type
+     * @return {@link JType} instance
      */
     @SuppressWarnings("unchecked")
     public static <T> JType<T> of(Type type) {
@@ -69,11 +78,6 @@ public class JType<T> {
         return new JType<>(raw, type);
     }
 
-    /**
-     * Returns first generic type argument of {@link JType}.
-     * 
-     * @return first generic type argument
-     */
     private Type getTypeArgument() {
         var parent = getClass().getGenericSuperclass();
         if (!(parent instanceof ParameterizedType)) {
@@ -87,18 +91,18 @@ public class JType<T> {
     }
 
     /**
-     * Returns raw class.
-     * 
-     * @return raw class
+     * Returns {@link Class} instance, containing raw type.
+     *
+     * @return {@link Class} instance
      */
     public Class<T> getRawType() {
         return raw;
     }
 
     /**
-     * Returns class with generic parameters.
-     * 
-     * @return class with generic parameters
+     * Returns {@link Type} instance, containing full type.
+     *
+     * @return {@link Type} instance
      */
     public Type getType() {
         return type;

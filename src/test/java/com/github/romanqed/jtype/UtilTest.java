@@ -32,7 +32,8 @@ public class UtilTest {
         assertAll(
                 () -> assertThrows(NullPointerException.class, () -> getArrayType(null, 1)),
                 () -> assertThrows(IllegalArgumentException.class, () -> getArrayType(String.class, 0)),
-                () -> assertEquals(String[].class, getArrayType(String.class, 1))
+                () -> assertEquals(String[].class, getArrayType(String.class, 1)),
+                () -> assertEquals(String[][].class, getArrayType(String[].class, 1))
         );
     }
 
