@@ -51,8 +51,10 @@ public final class TypeUtil {
      * Creates an array type from the specified type and dimension.
      * In fact, the dimension will simply be added to the type descriptor,
      * meaning the method works as follows:
-     * 1) getArrayType(String.class, 1) => String[].class
-     * 2) getArrayType(String[].class, 1) => String[][].class
+     * <br>
+     * 1) getArrayType(String.class, 1) =&gt; String[].class
+     * <br>
+     * 2) getArrayType(String[].class, 1) =&gt; String[][].class
      *
      * @param type      the specified component type, must be non-null
      * @param dimension the specified dimension, must be greater or equal 1
