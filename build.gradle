@@ -73,7 +73,7 @@ publishing {
             // Configure pom
             pom {
                 name.set(archivesBaseName)
-                description.set('Placeholder')
+                description.set('A set of utilities for convenient work with java types.')
                 url.set('https://github.com/RomanQed/jtype')
 
                 organization {
