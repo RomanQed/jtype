@@ -44,7 +44,7 @@ dependencies {
 * **[RomanQed](https://github.com/RomanQed)** - *Main work*
 * **[N1ckBaran0v](https://github.com/N1ckBaran0v)** - *Javadocs*
 
-See also the list of [contributors](https://github.com/RomanQed/jeflect/contributors)
+See also the list of [contributors](https://github.com/RomanQed/jtype/contributors)
 who participated in this project.
 
 ## License
