@@ -48,7 +48,7 @@ public class JType<T> {
     @SuppressWarnings("unchecked")
     protected JType() {
         this.type = getTypeArgument();
-        this.raw = (Class<T>) TypeUtil.getRawType(this.type);
+        this.raw = (Class<T>) TypeUtil.innerGetRawType(this.type);
     }
 
     /**
