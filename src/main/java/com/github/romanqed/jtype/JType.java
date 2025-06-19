@@ -11,14 +11,14 @@ import java.util.Objects;
  * @param <T> a stored type
  */
 public class JType<T> {
-    public static final JType<Boolean> BOOLEAN = JType.of(Boolean.class);
-    public static final JType<Character> CHARACTER = JType.of(Character.class);
-    public static final JType<Byte> BYTE = JType.of(Byte.class);
-    public static final JType<Short> SHORT = JType.of(Short.class);
-    public static final JType<Integer> INTEGER = JType.of(Integer.class);
-    public static final JType<Long> LONG = JType.of(Long.class);
-    public static final JType<Float> FLOAT = JType.of(Float.class);
-    public static final JType<Double> DOUBLE = JType.of(Double.class);
+    public static final JType<Boolean> BOOLEAN = new JType<>(Boolean.class);
+    public static final JType<Character> CHARACTER = new JType<>(Character.class);
+    public static final JType<Byte> BYTE = new JType<>(Byte.class);
+    public static final JType<Short> SHORT = new JType<>(Short.class);
+    public static final JType<Integer> INTEGER = new JType<>(Integer.class);
+    public static final JType<Long> LONG = new JType<>(Long.class);
+    public static final JType<Float> FLOAT = new JType<>(Float.class);
+    public static final JType<Double> DOUBLE = new JType<>(Double.class);
 
     private final Class<T> raw;
     private final Type type;
@@ -26,6 +26,11 @@ public class JType<T> {
     JType(Class<T> raw, Type type) {
         this.raw = raw;
         this.type = type;
+    }
+
+    JType(Class<T> raw) {
+        this.raw = raw;
+        this.type = raw;
     }
 
     /**
@@ -60,7 +65,7 @@ public class JType<T> {
      */
     public static <T> JType<T> of(Class<T> type) {
         Objects.requireNonNull(type);
-        return new JType<>(type, type);
+        return new JType<>(type);
     }
 
     /**
@@ -74,7 +79,7 @@ public class JType<T> {
     @SuppressWarnings("unchecked")
     public static <T> JType<T> of(Type type) {
         Objects.requireNonNull(type);
-        var raw = (Class<T>) TypeUtil.getRawType(type);
+        var raw = (Class<T>) TypeUtil.innerGetRawType(type);
         return new JType<>(raw, type);
     }
 
@@ -110,8 +115,7 @@ public class JType<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof JType)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         var that = (JType<?>) o;
         return type.equals(that.type);
     }
